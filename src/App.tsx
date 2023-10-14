@@ -5,6 +5,7 @@ import {
 import axios from "axios";
 import { useQuery } from "react-query";
 import { EventList } from "./components/EventList";
+import Navbar from "./components/Navbar";
 
 export interface GCalEvent {
 	created: string;
@@ -74,9 +75,10 @@ function App() {
 
 	if (sessionLoading || calLoading) return <h1>Loading ...</h1>;
 	return (
-		<div className='container'>
+		<div>
 			{session ? (
 				<div className='m-auto'>
+					<Navbar />
 					<h2>Hey there {session.user.email}</h2>
 					<button
 						className='bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow'
