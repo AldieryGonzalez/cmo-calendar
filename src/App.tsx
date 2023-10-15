@@ -38,11 +38,13 @@ export interface GCalEvent {
 function App() {
 	const supabase = useSupabaseClient();
 	const { session, isLoading: sessionLoading } = useSessionContext();
-	const { data, isLoading: calLoading } = useQuery(
-		"calQuery",
-		fetchCalendar,
-		{ enabled: !sessionLoading }
-	);
+	const {
+		data,
+		isLoading: calLoading,
+		isError: gcalError,
+	} = useQuery("calQuery", fetchCalendar, {
+		enabled: !sessionLoading && !!session,
+	});
 
 	async function googleSignIn() {
 		const { error } = await supabase.auth.signInWithOAuth({
@@ -61,7 +63,6 @@ function App() {
 	}
 	async function fetchCalendar() {
 		const today = new Date().toISOString();
-		console.log(today);
 		const response = await axios.get(
 			`https://www.googleapis.com/calendar/v3/calendars/hi538hiha983mftk127v1q7mco@group.calendar.google.com/events?timeMin=${today}&orderBy=startTime&singleEvents=true`,
 			{
@@ -72,11 +73,10 @@ function App() {
 		);
 		return response.data;
 	}
-
-	if (sessionLoading || calLoading) return <h1>Loading ...</h1>;
+	if (sessionLoading) return <h1>Loading ...</h1>;
 	return (
 		<div>
-			{session ? (
+			{session && data ? (
 				<div className='m-auto'>
 					<Navbar />
 					<h2>Hey there {session.user.email}</h2>
