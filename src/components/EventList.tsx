@@ -1,5 +1,5 @@
 import React from "react";
-import type { GCalEvent } from "../App";
+import type { GCalEvent } from "../shared/gcalevent.interface";
 import Event from "./Event";
 import moment from "moment";
 
@@ -36,3 +36,5 @@ export const EventList: React.FC<Props> = ({ events }) => {
 		</div>
 	);
 };
+
+export default EventList;

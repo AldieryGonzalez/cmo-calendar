@@ -1,66 +1,18 @@
-import {
-	useSessionContext,
-	useSupabaseClient,
-} from "@supabase/auth-helpers-react";
 import axios from "axios";
+import { useAuth } from "./utilities/useAuth";
 import { useQuery } from "react-query";
-import { EventList } from "./components/EventList";
+
+import { signOut, googleSignIn } from "./utilities/supabase";
+
+import EventList from "./components/EventList";
 import Navbar from "./components/Navbar";
 
-export interface GCalEvent {
-	created: string;
-	creator: { email: string };
-	description: string;
-	end: { dateTime: string; timeZone: string };
-	etag: string;
-	eventType: "default";
-	htmlLink: string;
-	iCalUID: string;
-	id: string;
-	kind: "calendar#event";
-	location: string;
-	organizer: {
-		email: string;
-		displayName: string;
-		self: boolean;
-	};
-	reminders: { useDefault: boolean };
-	sequence: number;
-	start: {
-		dateTime: string;
-		timeZone: "America/Chicago";
-	};
-	status: "confirmed";
-	summary: string;
-	updated: string;
-}
-
 function App() {
-	const supabase = useSupabaseClient();
-	const { session, isLoading: sessionLoading } = useSessionContext();
-	const {
-		data,
-		isLoading: calLoading,
-		isError: gcalError,
-	} = useQuery("calQuery", fetchCalendar, {
-		enabled: !sessionLoading && !!session,
+	const { session, isLoading: sessionLoading } = useAuth();
+	const { data } = useQuery("calQuery", fetchCalendar, {
+		enabled: !!session,
 	});
 
-	async function googleSignIn() {
-		const { error } = await supabase.auth.signInWithOAuth({
-			provider: "google",
-			options: {
-				scopes: "https://www.googleapis.com/auth/calendar",
-			},
-		});
-		if (error) {
-			alert("Error logging in to Google");
-			console.log(error);
-		}
-	}
-	async function signOut() {
-		await supabase.auth.signOut();
-	}
 	async function fetchCalendar() {
 		const today = new Date().toISOString();
 		const response = await axios.get(
@@ -73,6 +25,7 @@ function App() {
 		);
 		return response.data;
 	}
+	console.log(session);
 	if (sessionLoading) return <h1>Loading ...</h1>;
 	return (
 		<div>
