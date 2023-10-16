@@ -129,6 +129,7 @@ const SchedOverview: React.FC<Props> = ({ date, shifts }) => {
 				</Card>
 			</div>
 			<div className='mx-6 mb-5 flex flex-col gap-2 '>
+				<h3 className='text-3xl font-bold'>Your Shifts</h3>
 				{myShifts.map((event) => {
 					return (
 						<div key={event.id}>
