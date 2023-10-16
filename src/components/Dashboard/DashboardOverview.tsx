@@ -3,14 +3,14 @@ import { GCalEvent } from "@/shared/gcalevent.interface";
 import { TabsContent } from "@radix-ui/react-tabs";
 import React from "react";
 import { DateRange } from "react-day-picker";
-import Event from "./Event";
+import Event from "../Event";
 
 type Props = {
 	date: DateRange | undefined;
 	shifts: GCalEvent[];
 };
 
-const SchedOverview: React.FC<Props> = ({ date, shifts }) => {
+const DashboardOverview: React.FC<Props> = ({ date, shifts }) => {
 	const inShift = (shift: GCalEvent, employeeName: string) => {
 		const lines = shift.description.split("\n");
 		// const [first, lastInit, role, timeEh] = lines[1].split(" ");
@@ -142,4 +142,4 @@ const SchedOverview: React.FC<Props> = ({ date, shifts }) => {
 	);
 };
 
-export default SchedOverview;
+export default DashboardOverview;

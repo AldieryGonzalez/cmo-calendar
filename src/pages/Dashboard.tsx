@@ -1,5 +1,5 @@
 import { DatePickerWithRange } from "@/components/DateRangePicker";
-import SchedOverview from "@/components/SchedOverview";
+import DashboardOverview from "@/components/Dashboard/DashboardOverview";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/utilities/useAuth";
 import axios from "axios";
@@ -7,8 +7,11 @@ import { addDays } from "date-fns";
 import React from "react";
 import { DateRange } from "react-day-picker";
 import { useQuery } from "react-query";
+import DashboardAnalytics from "@/components/Dashboard/DashboardAnalytics";
+import DashboardReports from "@/components/Dashboard/DashboardReports";
+import DashboardNotifications from "@/components/Dashboard/DashboardNotifications";
 
-const Schedule = () => {
+const Dashboard = () => {
 	const { session, isLoading: sessionLoading } = useAuth();
 	const [date, setDate] = React.useState<DateRange | undefined>({
 		from: new Date(),
@@ -59,10 +62,13 @@ const Schedule = () => {
 						Notifications
 					</TabsTrigger>
 				</TabsList>
-				<SchedOverview shifts={data.items} date={date} />
+				<DashboardOverview shifts={data.items} date={date} />
+				<DashboardAnalytics />
+				<DashboardReports />
+				<DashboardNotifications />
 			</Tabs>
 		</div>
 	);
 };
 
-export default Schedule;
+export default Dashboard;

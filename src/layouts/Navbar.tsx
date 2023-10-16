@@ -9,7 +9,7 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
+} from "../components/ui/dropdown-menu";
 import { useAuth } from "@/utilities/useAuth";
 import type { Session } from "@supabase/supabase-js";
 import { useNavigate } from "react-router";
@@ -162,9 +162,9 @@ const Navbar = () => {
 						Home
 					</Link>
 					<Link
-						to='schedule'
+						to='calendar'
 						className='block mt-4 lg:inline-block lg:mt-0 text-white hover:underline mr-4'>
-						Schedule
+						Calendar
 					</Link>
 					<Link
 						to='requests'
