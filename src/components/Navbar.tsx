@@ -1,8 +1,112 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import cn from "classnames";
+import { googleSignIn, signOut } from "@/utilities/supabase";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuGroup,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import { useAuth } from "@/utilities/useAuth";
+import type { Session } from "@supabase/supabase-js";
+import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
+
+type AuthComponent = {
+	user: Session | null;
+	noUser?: boolean;
+};
+
+type StrictAuthComponent = {
+	user: Session;
+};
+
+const SignInButton = () => {
+	return (
+		<button
+			onClick={googleSignIn}
+			className='inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-purple-900 hover:bg-white mt-4 lg:mt-0'>
+			Sign In
+		</button>
+	);
+};
+
+const ProfileButton: React.FC<StrictAuthComponent> = ({ user }) => {
+	const { picture, name } = user.user.user_metadata;
+	const navigate = useNavigate();
+	const section1 = [
+		{ text: "Profile", path: "/home" },
+		{ text: "Settings", path: "/#" },
+	];
+	return (
+		<>
+			<div className='hidden lg:block'>
+				<DropdownMenu>
+					<DropdownMenuTrigger asChild>
+						<button className='flex items-center text-sm font-medium text-white rounded-full p-1 hover:underline focus:ring-1 focus:ring-gray-100'>
+							<img
+								className='w-8 h-8 mr-2 rounded-full'
+								src={picture}
+								alt='user photo'
+							/>
+							{name}
+						</button>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent className='w-56'>
+						<DropdownMenuLabel>My Account</DropdownMenuLabel>
+						<DropdownMenuSeparator />
+						<DropdownMenuGroup>
+							{section1.map((item) => {
+								return (
+									<DropdownMenuItem
+										key={item.text}
+										onClick={() => navigate(item.path)}>
+										{item.text}
+									</DropdownMenuItem>
+								);
+							})}
+						</DropdownMenuGroup>
+						<DropdownMenuSeparator />
+
+						<DropdownMenuItem onClick={signOut}>
+							Log out
+						</DropdownMenuItem>
+					</DropdownMenuContent>
+				</DropdownMenu>
+			</div>
+			<div className='block lg:hidden'>
+				<hr></hr>
+				{section1.map((item) => {
+					return (
+						<Link
+							to={item.path}
+							key={item.text}
+							className='block my-3 lg:inline-block text-white hover:underline mr-4'>
+							{item.text}
+						</Link>
+					);
+				})}
+				<hr></hr>
+				<button
+					onClick={signOut}
+					className='block mt-4 lg:inline-block text-white font-bold hover:underline mr-4'>
+					Log out
+				</button>
+			</div>
+		</>
+	);
+};
+
+const AuthButton: React.FC<AuthComponent> = ({ user }) => {
+	return user !== null ? <ProfileButton user={user} /> : <SignInButton />;
+};
 
 const Navbar = () => {
 	const [open, setOpen] = useState(false);
+	const { session } = useAuth();
 
 	const handleOpen = () => {
 		setOpen((prev) => !prev);
@@ -37,35 +141,35 @@ const Navbar = () => {
 			</div>
 			<div
 				className={cn(
-					"w-full block transition-all max-h-40 flex-grow lg:flex lg:items-center lg:w-auto",
-					{ "max-h-0": open }
+					"w-full block transition-all duration-300 flex-grow lg:flex lg:items-center lg:w-auto",
+					{ "max-h-0": open, "max-h-96": !open }
 				)}>
 				<div
 					className={cn("transition-all text-md lg:flex-grow", {
 						"opacity-0": open,
 					})}>
-					<a
-						href='#responsive-header'
+					<Link
+						to='home'
 						className='block mt-4 lg:inline-block lg:mt-0 text-white hover:underline mr-4'>
-						Docs
-					</a>
-					<a
-						href='#responsive-header'
+						Home
+					</Link>
+					<Link
+						to='schedule'
 						className='block mt-4 lg:inline-block lg:mt-0 text-white hover:underline mr-4'>
-						Examples
-					</a>
-					<a
-						href='#responsive-header'
+						Schedule
+					</Link>
+					<Link
+						to='requests'
 						className='block mt-4 lg:inline-block lg:mt-0 text-white hover:underline'>
-						Blog
-					</a>
+						Shift Sub Requests
+					</Link>
 				</div>
-				<div>
-					<a
-						href='#'
-						className='inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0'>
-						Download
-					</a>
+				<div
+					className={cn("transition-all text-md ", {
+						"opacity-0": open,
+						"mt-2": !open,
+					})}>
+					<AuthButton user={session} />
 				</div>
 			</div>
 		</nav>
