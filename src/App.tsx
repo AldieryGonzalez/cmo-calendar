@@ -2,9 +2,10 @@ import { Route, Routes } from "react-router";
 import PrivateRoutes from "./utilities/PrivateRoutes";
 import Layout from "./layouts/Layout";
 
-import Shifts from "./pages/Shifts";
+import AllEvents from "./pages/AllEvents";
 import Landing from "./pages/Landing";
 import Wildcard from "./pages/Wildcard";
+import Schedule from "./pages/Schedule";
 
 function App() {
 	return (
@@ -14,8 +15,9 @@ function App() {
 					<Route index element={<Landing />}></Route>
 				</Route>
 				<Route path='/' element={<Landing />} />
-				<Route path='/home' element={<PrivateRoutes />}>
-					<Route index element={<Shifts />}></Route>
+				<Route element={<PrivateRoutes />}>
+					<Route path='/home' element={<AllEvents />}></Route>
+					<Route path='/schedule' element={<Schedule />}></Route>
 				</Route>
 				<Route path='*' element={<Wildcard />} />
 			</Route>
