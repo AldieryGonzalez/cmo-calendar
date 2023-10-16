@@ -1,28 +1,21 @@
 import EventList from "@/components/EventList";
+import { fetchCalendar } from "@/utilities/api";
 import { useAuth } from "@/utilities/useAuth";
-import axios from "axios";
 import { useQuery } from "react-query";
 
 const Shifts = () => {
 	const { session, isLoading: sessionLoading } = useAuth();
-	const { data } = useQuery("calQuery", fetchCalendar, {
+	const { data } = useQuery("calQuery", fetchData, {
 		enabled: !!session,
 	});
 
-	async function fetchCalendar() {
+	async function fetchData() {
 		const today = new Date().toISOString();
-		const response = await axios.get(
-			`https://www.googleapis.com/calendar/v3/calendars/hi538hiha983mftk127v1q7mco@group.calendar.google.com/events?timeMin=${today}&orderBy=startTime&singleEvents=true`,
-			{
-				headers: {
-					Authorization: `Bearer ${session?.provider_token}`,
-				},
-			}
-		);
-		return response.data;
+		const result = await fetchCalendar(session, today);
+		return result;
 	}
 	if (sessionLoading || !data) return <h1>Loading ...</h1>;
-	return <EventList events={data.items} />;
+	return <EventList events={data} />;
 };
 
 export default Shifts;

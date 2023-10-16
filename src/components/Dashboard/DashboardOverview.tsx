@@ -1,16 +1,57 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
 import { GCalEvent } from "@/shared/gcalevent.interface";
 import { TabsContent } from "@radix-ui/react-tabs";
 import React from "react";
 import { DateRange } from "react-day-picker";
-import Event from "../Event";
+import { groupEventsByDay } from "@/utilities/dateUtils";
+import moment from "moment";
 
-type Props = {
+type OverviewProps = {
 	date: DateRange | undefined;
 	shifts: GCalEvent[];
 };
 
-const DashboardOverview: React.FC<Props> = ({ date, shifts }) => {
+type DaySectionProps = {
+	day: string;
+	events: GCalEvent[];
+};
+
+type ShiftCardProps = {
+	event: GCalEvent;
+};
+
+const DaySection: React.FC<DaySectionProps> = ({ day, events }) => {
+	return (
+		<div>
+			<h3 className='text-xl font-semibold'>{day}</h3>
+			{events.map((event) => (
+				<ShiftCard key={event.id} event={event} />
+			))}
+		</div>
+	);
+};
+
+const ShiftCard: React.FC<ShiftCardProps> = ({ event }) => {
+	const startTime = moment(event.start.dateTime).format("h:mm A");
+	const endTime = moment(event.end.dateTime).format("h:mm A");
+	// console.log(event.description.split("\n"));
+	return (
+		<Card className='gap-2'>
+			<CardHeader>
+				<CardTitle>{event.summary}</CardTitle>
+				<CardDescription>{`${startTime} - ${endTime}`}</CardDescription>
+			</CardHeader>
+		</Card>
+	);
+};
+
+const DashboardOverview: React.FC<OverviewProps> = ({ date, shifts }) => {
 	const inShift = (shift: GCalEvent, employeeName: string) => {
 		const lines = shift.description.split("\n");
 		// const [first, lastInit, role, timeEh] = lines[1].split(" ");
@@ -21,7 +62,11 @@ const DashboardOverview: React.FC<Props> = ({ date, shifts }) => {
 		}
 		return false;
 	};
-	const myShifts = shifts.filter((shift) => inShift(shift, "Aldi G."));
+	const myShifts = groupEventsByDay(
+		shifts.filter((shift) => inShift(shift, "Aldi G.")),
+		date?.from,
+		date?.to
+	);
 
 	return (
 		<TabsContent value='overview' className='space-y-4'>
@@ -130,12 +175,8 @@ const DashboardOverview: React.FC<Props> = ({ date, shifts }) => {
 			</div>
 			<div className='mx-6 mb-5 flex flex-col gap-2 '>
 				<h3 className='text-3xl font-bold'>Your Shifts</h3>
-				{myShifts.map((event) => {
-					return (
-						<div key={event.id}>
-							<Event key={event.id} event={event} />
-						</div>
-					);
+				{myShifts.map((day) => {
+					return <DaySection day={day.day} events={day.events} />;
 				})}
 			</div>
 		</TabsContent>

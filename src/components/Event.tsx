@@ -1,5 +1,5 @@
 import React from "react";
-import { GCalEvent } from "../App";
+import { GCalEvent } from "../shared/gcalevent.interface";
 import { Card, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import moment from "moment";
 type Props = {
