@@ -126,7 +126,11 @@ const Navbar = () => {
 					CMO Scheduler
 				</span>
 			</div>
-			<div className='block lg:hidden'>
+			<div
+				className={cn({
+					"block lg:hidden": !!session,
+					hidden: !session,
+				})}>
 				<button
 					className='flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white'
 					onClick={handleOpen}>
@@ -142,11 +146,15 @@ const Navbar = () => {
 			<div
 				className={cn(
 					"w-full block transition-all duration-300 flex-grow lg:flex lg:items-center lg:w-auto",
-					{ "max-h-0": open, "max-h-96": !open }
+					{
+						"max-h-0": open,
+						"max-h-96": !open,
+					}
 				)}>
 				<div
 					className={cn("transition-all text-md lg:flex-grow", {
 						"opacity-0": open,
+						"hidden lg:invisible lg:block": !session,
 					})}>
 					<Link
 						to='home'
@@ -168,6 +176,7 @@ const Navbar = () => {
 					className={cn("transition-all text-md ", {
 						"opacity-0": open,
 						"mt-2": !open,
+						"hidden lg:invisible lg:block": !session,
 					})}>
 					<AuthButton user={session} />
 				</div>

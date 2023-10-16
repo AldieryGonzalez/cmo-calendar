@@ -8,8 +8,7 @@ type PrivateReqs = {
 };
 
 const PrivateRoutes: React.FC<PrivateReqs> = ({ auth = true, admin }) => {
-	const { session } = useAuth();
-	console.log(session);
+	const { session, isLoading } = useAuth();
 	let pass = true;
 	let path = "/";
 
@@ -17,12 +16,16 @@ const PrivateRoutes: React.FC<PrivateReqs> = ({ auth = true, admin }) => {
 		pass = pass && !!session;
 		path = pass ? path : "/";
 	}
+	if (auth == false) {
+		pass = pass && !session;
+		path = pass ? path : "/home";
+	}
 	if (admin) {
 		pass = pass && !!session;
 		path = pass ? path : "/";
 	}
-	console.log(session, path);
-	return session ? <Outlet /> : <Navigate to={path} />;
+	if (isLoading) return <p>Loading...</p>;
+	return pass ? <Outlet /> : <Navigate to={path} />;
 };
 
 export default PrivateRoutes;
