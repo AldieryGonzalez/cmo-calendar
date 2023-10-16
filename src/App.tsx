@@ -25,7 +25,6 @@ function App() {
 		);
 		return response.data;
 	}
-	console.log(session);
 	if (sessionLoading) return <h1>Loading ...</h1>;
 	return (
 		<div>
