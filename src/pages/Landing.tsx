@@ -1,6 +1,8 @@
 import { googleSignIn } from "@/utilities/supabase";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
 const Landing = () => {
+	const supabase = useSupabaseClient();
 	return (
 		<div className='p-5 mx-auto w-full flex flex-col items-center text-center'>
 			<div className='my-4 text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-'>
@@ -12,7 +14,7 @@ const Landing = () => {
 			</p>
 			<button
 				className='bg-white hover:bg-gray-100 mx-auto text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow'
-				onClick={() => googleSignIn()}>
+				onClick={() => googleSignIn(supabase)}>
 				Sign in with Google
 			</button>
 		</div>

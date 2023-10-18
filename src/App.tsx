@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PrivateRoutes from "./utilities/PrivateRoutes";
 import Layout from "./layouts/Layout";
 
@@ -9,19 +9,21 @@ import Dashboard from "./pages/Dashboard";
 
 function App() {
 	return (
-		<Routes>
-			<Route element={<Layout />}>
-				<Route path='/' element={<PrivateRoutes auth={false} />}>
-					<Route index element={<Landing />}></Route>
+		<BrowserRouter>
+			<Routes>
+				<Route element={<Layout />}>
+					<Route path='/' element={<PrivateRoutes auth={false} />}>
+						<Route index element={<Landing />}></Route>
+					</Route>
+					<Route path='/' element={<Landing />} />
+					<Route element={<PrivateRoutes />}>
+						<Route path='/home' element={<Dashboard />}></Route>
+						<Route path='/calendar' element={<AllEvents />}></Route>
+					</Route>
+					<Route path='*' element={<Wildcard />} />
 				</Route>
-				<Route path='/' element={<Landing />} />
-				<Route element={<PrivateRoutes />}>
-					<Route path='/home' element={<Dashboard />}></Route>
-					<Route path='/calendar' element={<AllEvents />}></Route>
-				</Route>
-				<Route path='*' element={<Wildcard />} />
-			</Route>
-		</Routes>
+			</Routes>
+		</BrowserRouter>
 	);
 }
 

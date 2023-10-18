@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import cn from "classnames";
-import { googleSignIn, signOut } from "@/utilities/supabase";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -10,31 +9,35 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "../components/ui/dropdown-menu";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/utilities/useAuth";
-import type { Session } from "@supabase/supabase-js";
-import { useNavigate } from "react-router";
-import { Link } from "react-router-dom";
+import { googleSignIn, signOut } from "@/utilities/supabase";
+import type { SupabaseClient, Session } from "@supabase/supabase-js";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
-type AuthComponent = {
+type AuthComponent = ReqsSupabase & {
 	user: Session | null;
 	noUser?: boolean;
 };
 
-type StrictAuthComponent = {
+type StrictAuthComponent = ReqsSupabase & {
 	user: Session;
 };
 
-const SignInButton = () => {
+type ReqsSupabase = {
+	supabase: SupabaseClient;
+};
+const SignInButton: React.FC<ReqsSupabase> = ({ supabase }) => {
 	return (
 		<button
-			onClick={googleSignIn}
+			onClick={() => googleSignIn(supabase)}
 			className='inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-purple-900 hover:bg-white mt-4 lg:mt-0'>
 			Sign In
 		</button>
 	);
 };
 
-const ProfileButton: React.FC<StrictAuthComponent> = ({ user }) => {
+const ProfileButton: React.FC<StrictAuthComponent> = ({ user, supabase }) => {
 	const { picture, name } = user.user.user_metadata;
 	const navigate = useNavigate();
 	const section1 = [
@@ -76,7 +79,7 @@ const ProfileButton: React.FC<StrictAuthComponent> = ({ user }) => {
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator />
 
-						<DropdownMenuItem onClick={signOut}>
+						<DropdownMenuItem onClick={() => signOut(supabase)}>
 							Log out
 						</DropdownMenuItem>
 					</DropdownMenuContent>
@@ -96,7 +99,7 @@ const ProfileButton: React.FC<StrictAuthComponent> = ({ user }) => {
 				})}
 				<hr></hr>
 				<button
-					onClick={signOut}
+					onClick={() => signOut(supabase)}
 					className='block mt-4 lg:inline-block text-white font-bold hover:underline mr-4'>
 					Log out
 				</button>
@@ -105,13 +108,18 @@ const ProfileButton: React.FC<StrictAuthComponent> = ({ user }) => {
 	);
 };
 
-const AuthButton: React.FC<AuthComponent> = ({ user }) => {
-	return user !== null ? <ProfileButton user={user} /> : <SignInButton />;
+const AuthButton: React.FC<AuthComponent> = ({ user, supabase }) => {
+	return user !== null ? (
+		<ProfileButton user={user} supabase={supabase} />
+	) : (
+		<SignInButton supabase={supabase} />
+	);
 };
 
 const Navbar = () => {
 	const [open, setOpen] = useState(false);
 	const { session } = useAuth();
+	const supabase = useSupabaseClient();
 
 	const handleOpen = () => {
 		setOpen((prev) => !prev);
@@ -183,7 +191,7 @@ const Navbar = () => {
 						"mt-2": !open,
 						"hidden lg:invisible lg:block": !session,
 					})}>
-					<AuthButton user={session} />
+					<AuthButton user={session} supabase={supabase} />
 				</div>
 			</div>
 		</nav>

@@ -1,6 +1,6 @@
-import { supabase } from "@/main";
+import type { SupabaseClient } from "@supabase/supabase-js";
 
-export async function googleSignIn() {
+export async function googleSignIn(supabase: SupabaseClient) {
 	const { error } = await supabase.auth.signInWithOAuth({
 		provider: "google",
 		options: {
@@ -12,6 +12,6 @@ export async function googleSignIn() {
 		console.log(error);
 	}
 }
-export async function signOut() {
+export async function signOut(supabase: SupabaseClient) {
 	await supabase.auth.signOut();
 }
