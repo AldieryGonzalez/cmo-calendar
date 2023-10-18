@@ -21,7 +21,6 @@ const Dashboard = () => {
 
 	const handleDateChange = (dateRange: DateRange | undefined) => {
 		setDate(dateRange);
-		console.log(dateRange);
 	};
 
 	if (!data) return <SimpleLoading />;

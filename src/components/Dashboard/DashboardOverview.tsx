@@ -37,14 +37,11 @@ const DaySection: React.FC<DaySectionProps> = ({ day, events }) => {
 };
 
 const ShiftCard: React.FC<ShiftCardProps> = ({ event }) => {
-	const startTime = event.startTimeString;
-	const endTime = event.endTimeString;
-	// console.log(event.description.split("\n"));
 	return (
 		<Card className='gap-2'>
 			<CardHeader>
 				<CardTitle>{event.title}</CardTitle>
-				<CardDescription>{`${startTime} - ${endTime}`}</CardDescription>
+				<CardDescription>{event.timeRangeString}</CardDescription>
 			</CardHeader>
 		</Card>
 	);

@@ -8,7 +8,6 @@ type Props = {
 
 export const EventList: React.FC<Props> = ({ events }) => {
 	let curDate = "null";
-	console.log(events);
 	return (
 		<div className='mx-6 mb-5 flex flex-col gap-2 '>
 			{events.map((event) => {

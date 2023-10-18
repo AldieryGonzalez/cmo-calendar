@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { fetchCalendar } from "@/utilities/api";
 import type { CmoEvent } from "@/utilities/classes/CmoEvent";
 import { useAuth } from "@/utilities/useAuth";
@@ -66,7 +67,6 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({
 			"calendarEvents",
 			"initial",
 		]);
-		console.log(existingData);
 	}
 
 	async function extendCalendar(
@@ -79,7 +79,6 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({
 			"calendarEvents",
 			"initial",
 		]);
-		console.log(existingData, additionalData, inFront);
 	}
 
 	useEffect(() => {}, []);
