@@ -176,7 +176,13 @@ const DashboardOverview: React.FC<OverviewProps> = ({ date, shifts }) => {
 			<div className='mx-6 mb-5 flex flex-col gap-2 '>
 				<h3 className='text-3xl font-bold'>Your Shifts</h3>
 				{myShifts.map((day) => {
-					return <DaySection day={day.day} events={day.events} />;
+					return (
+						<DaySection
+							key={day.day}
+							day={day.day}
+							events={day.events}
+						/>
+					);
 				})}
 			</div>
 		</TabsContent>

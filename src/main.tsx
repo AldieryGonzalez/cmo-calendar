@@ -8,6 +8,7 @@ import { SessionContextProvider } from "@supabase/auth-helpers-react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { AuthProvider } from "./contexts/AuthContext.tsx";
 import { BrowserRouter } from "react-router-dom";
+import { CalendarProvider } from "./contexts/CalendarContext.tsx";
 
 export const supabase = createClient(
 	"https://kawwnybalhujdmtujcgo.supabase.co",
@@ -21,9 +22,11 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 		<SessionContextProvider supabaseClient={supabase}>
 			<QueryClientProvider client={queryClient}>
 				<AuthProvider>
-					<BrowserRouter>
-						<App />
-					</BrowserRouter>
+					<CalendarProvider>
+						<BrowserRouter>
+							<App />
+						</BrowserRouter>
+					</CalendarProvider>
 				</AuthProvider>
 			</QueryClientProvider>
 		</SessionContextProvider>

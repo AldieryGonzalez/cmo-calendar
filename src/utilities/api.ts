@@ -5,10 +5,9 @@ import { normalizeApiEvents } from "./eventUtils";
 export async function fetchCalendar(
 	session: Session | null,
 	startTime = new Date().toISOString(),
-	endTime: string | undefined = undefined
+	endTime: string
 ) {
-	endTime =
-		endTime != undefined ? `&timeMax=${new Date(endTime).toISOString}` : "";
+	endTime = `&timeMax=${new Date(endTime).toISOString()}`;
 	const url = `https://www.googleapis.com/calendar/v3/calendars/hi538hiha983mftk127v1q7mco@group.calendar.google.com/events?timeMin=${startTime}${endTime}&orderBy=startTime&singleEvents=true`;
 	const response = await axios.get(url, {
 		headers: {

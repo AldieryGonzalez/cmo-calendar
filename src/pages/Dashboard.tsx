@@ -3,7 +3,7 @@ import DashboardOverview from "@/components/Dashboard/DashboardOverview";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/utilities/useAuth";
 import axios from "axios";
-import { addDays } from "date-fns";
+import { addMonths } from "date-fns";
 import React from "react";
 import { DateRange } from "react-day-picker";
 import { useQuery } from "react-query";
@@ -15,7 +15,7 @@ const Dashboard = () => {
 	const { session, isLoading: sessionLoading } = useAuth();
 	const [date, setDate] = React.useState<DateRange | undefined>({
 		from: new Date(),
-		to: addDays(new Date(), 60),
+		to: addMonths(new Date(), 2),
 	});
 
 	const { data } = useQuery("calQuery", fetchCalendar, {
@@ -40,7 +40,8 @@ const Dashboard = () => {
 		console.log(dateRange);
 	};
 
-	if (sessionLoading || !data) return <h1>Loading ...</h1>;
+	// eslint-disable-next-line no-constant-condition
+	if (true || sessionLoading || !data) return <h1>Loading ...</h1>;
 
 	return (
 		<div className='flex-1 space-y-4 p-8 pt-6'>

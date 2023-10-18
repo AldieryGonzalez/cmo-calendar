@@ -50,7 +50,12 @@ const ProfileButton: React.FC<StrictAuthComponent> = ({ user }) => {
 							<img
 								className='w-8 h-8 mr-2 rounded-full'
 								src={picture}
-								alt='user photo'
+								alt='Profile photo'
+								onError={(e) => {
+									e.currentTarget.src =
+										"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/256px-Default_pfp.svg.png";
+									e.currentTarget.onerror = null;
+								}}
 							/>
 							{name}
 						</button>
