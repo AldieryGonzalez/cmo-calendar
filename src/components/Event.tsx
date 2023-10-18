@@ -1,22 +1,17 @@
 import React from "react";
-import { GCalEvent } from "../shared/gcalevent.interface";
 import { Card, CardDescription, CardHeader, CardTitle } from "./ui/card";
-import moment from "moment";
+import { CmoEvent } from "@/utilities/classes/CmoEvent";
 type Props = {
-	event: GCalEvent;
+	event: CmoEvent;
 };
 
 const Event: React.FC<Props> = ({ event }) => {
-	const startTime = moment(event.start.dateTime).format("h:mm A");
-	const endTime = moment(event.end.dateTime).format("h:mm A");
 	return (
 		<>
 			<Card className='gap-2'>
 				<CardHeader>
-					<CardTitle>{event.summary}</CardTitle>
-					<CardDescription>
-						{`${startTime} - ${endTime}`}
-					</CardDescription>
+					<CardTitle>{event.title}</CardTitle>
+					<CardDescription>{event.timeRangeString}</CardDescription>
 				</CardHeader>
 				{/* <p className='whitespace-pre-wrap'>
 					{event.description

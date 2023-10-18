@@ -18,6 +18,8 @@ export class CmoEvent {
 	created: moment.Moment;
 	openShifts: Shift[];
 	filledShifts: Shift[];
+	start: moment.Moment;
+	end: moment.Moment;
 
 	private fullShiftPattern =
 		/^([A-Z][a-z]+ [A-Z]\.)\s\(([^)]+)\):\s((\d{1,2}:\d{2}[ap]m)-(\d{1,2}:\d{2}[ap]m|[Cc]lose))\s(\([A-Z]+ confirmed \d{1,2}\/\d{1,2}\/\d{2,4}[^)]*\))$/;
@@ -31,6 +33,8 @@ export class CmoEvent {
 		this.creator = event.creator.email;
 		this.updated = moment(event.updated);
 		this.created = moment(event.created);
+		this.start = moment(event.start.dateTime);
+		this.end = moment(event.end.dateTime);
 
 		const matchMap: MatchMap = { filled: [], open: [], extra: [] };
 		const descLines = event.description.split("\n");
@@ -65,5 +69,24 @@ export class CmoEvent {
 				confirmationNote: shift[5],
 			});
 		});
+	}
+	inEvent(employeeName: string) {
+		for (const shift of this.filledShifts) {
+			if (shift.filledBy == employeeName) return true;
+		}
+		return false;
+	}
+
+	get longDateString() {
+		return this.start.format("dddd, MMMM Do YYYY");
+	}
+	get startTimeString() {
+		return this.start.format("h:mm A");
+	}
+	get endTimeString() {
+		return this.end.format("h:mm A");
+	}
+	get timeRangeString() {
+		return `${this.startTimeString} - ${this.endTimeString}`;
 	}
 }

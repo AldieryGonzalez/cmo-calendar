@@ -1,10 +1,9 @@
 import React from "react";
-import type { GCalEvent } from "../shared/gcalevent.interface";
 import Event from "./Event";
-import moment from "moment";
+import { CmoEvent } from "@/utilities/classes/CmoEvent";
 
 type Props = {
-	events: GCalEvent[];
+	events: CmoEvent[];
 };
 
 export const EventList: React.FC<Props> = ({ events }) => {
@@ -13,9 +12,7 @@ export const EventList: React.FC<Props> = ({ events }) => {
 	return (
 		<div className='mx-6 mb-5 flex flex-col gap-2 '>
 			{events.map((event) => {
-				const date = moment(event.start.dateTime).format(
-					"dddd, MMMM Do YYYY"
-				);
+				const date = event.longDateString;
 				const newDate = curDate !== date;
 				if (newDate) {
 					curDate = date;

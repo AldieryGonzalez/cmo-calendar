@@ -1,10 +1,10 @@
-import { GCalEvent } from "@/shared/gcalevent.interface";
 import moment from "moment";
+import { CmoEvent } from "./classes/CmoEvent";
 
-type EventByDayObj = { [day: string]: GCalEvent[] };
+type EventByDayObj = { [day: string]: CmoEvent[] };
 
 export function groupEventsByDay(
-	events: GCalEvent[],
+	events: CmoEvent[],
 	startDate: Date | undefined,
 	endDate: Date | undefined
 ) {
@@ -13,10 +13,10 @@ export function groupEventsByDay(
 	const end = moment(endDate);
 
 	for (const event of events) {
-		const eventDate = moment(event.start.dateTime);
+		const eventDate = event.start;
 
 		if (eventDate.isBetween(start, end, "day", "[]")) {
-			const eventDay = eventDate.format("dddd, MMMM Do YYYY");
+			const eventDay = event.longDateString;
 
 			if (!eventsByDay[eventDay]) {
 				eventsByDay[eventDay] = [];

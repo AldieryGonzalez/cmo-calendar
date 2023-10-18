@@ -1,5 +1,5 @@
-import { GCalEvent } from "@/shared/gcalevent.interface";
 import { fetchCalendar } from "@/utilities/api";
+import type { CmoEvent } from "@/utilities/classes/CmoEvent";
 import { useAuth } from "@/utilities/useAuth";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
@@ -11,7 +11,7 @@ type CalendarProviderProps = {
 
 type CalValues = {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	data: GCalEvent[] | undefined;
+	data: CmoEvent[] | undefined;
 	handleStartChange: (startInput: Date) => void;
 	handleEndChange: (endInput: Date) => void;
 };
@@ -86,11 +86,12 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({
 
 	const value = {
 		data,
+		calLoading,
 		handleStartChange,
 		handleEndChange,
 		checkExistingData,
 	};
-
+	// if (calLoading) return <SimpleLoading />;
 	return (
 		<CalendarContext.Provider value={value}>
 			{children}

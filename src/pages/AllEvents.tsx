@@ -1,12 +1,11 @@
 import EventList from "@/components/EventList";
-import { fetchCalendar } from "@/utilities/api";
-import { useAuth } from "@/utilities/useAuth";
-import { useQuery } from "react-query";
+import SimpleLoading from "@/layouts/SimpleLoading";
+import { useCalendar } from "@/utilities/useCalendar";
 
 const Shifts = () => {
-	const { isLoading: sessionLoading } = useAuth();
-	// eslint-disable-next-line no-constant-condition
-	if (true || sessionLoading || !data) return <h1>Loading ...</h1>;
+	const { data } = useCalendar();
+
+	if (!data) return <SimpleLoading />;
 	return <EventList events={data} />;
 };
 

@@ -1,47 +1,30 @@
 import { DatePickerWithRange } from "@/components/DateRangePicker";
 import DashboardOverview from "@/components/Dashboard/DashboardOverview";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useAuth } from "@/utilities/useAuth";
-import axios from "axios";
+
 import { addMonths } from "date-fns";
 import React from "react";
 import { DateRange } from "react-day-picker";
-import { useQuery } from "react-query";
 import DashboardAnalytics from "@/components/Dashboard/DashboardAnalytics";
 import DashboardReports from "@/components/Dashboard/DashboardReports";
 import DashboardNotifications from "@/components/Dashboard/DashboardNotifications";
+import { useCalendar } from "@/utilities/useCalendar";
+import SimpleLoading from "@/layouts/SimpleLoading";
 
 const Dashboard = () => {
-	const { session, isLoading: sessionLoading } = useAuth();
 	const [date, setDate] = React.useState<DateRange | undefined>({
 		from: new Date(),
 		to: addMonths(new Date(), 2),
 	});
 
-	const { data } = useQuery("calQuery", fetchCalendar, {
-		enabled: !!session,
-	});
-
-	async function fetchCalendar() {
-		const today = new Date().toISOString();
-		const response = await axios.get(
-			`https://www.googleapis.com/calendar/v3/calendars/hi538hiha983mftk127v1q7mco@group.calendar.google.com/events?timeMin=${today}&orderBy=startTime&singleEvents=true`,
-			{
-				headers: {
-					Authorization: `Bearer ${session?.provider_token}`,
-				},
-			}
-		);
-		return response.data;
-	}
+	const { data } = useCalendar();
 
 	const handleDateChange = (dateRange: DateRange | undefined) => {
 		setDate(dateRange);
 		console.log(dateRange);
 	};
 
-	// eslint-disable-next-line no-constant-condition
-	if (true || sessionLoading || !data) return <h1>Loading ...</h1>;
+	if (!data) return <SimpleLoading />;
 
 	return (
 		<div className='flex-1 space-y-4 p-8 pt-6'>
@@ -63,7 +46,7 @@ const Dashboard = () => {
 						Notifications
 					</TabsTrigger>
 				</TabsList>
-				<DashboardOverview shifts={data.items} date={date} />
+				<DashboardOverview events={data} date={date} />
 				<DashboardAnalytics />
 				<DashboardReports />
 				<DashboardNotifications />

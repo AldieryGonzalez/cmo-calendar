@@ -5,25 +5,24 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { GCalEvent } from "@/shared/gcalevent.interface";
 import { TabsContent } from "@radix-ui/react-tabs";
 import React from "react";
 import { DateRange } from "react-day-picker";
 import { groupEventsByDay } from "@/utilities/dateUtils";
-import moment from "moment";
+import { CmoEvent } from "@/utilities/classes/CmoEvent";
 
 type OverviewProps = {
 	date: DateRange | undefined;
-	shifts: GCalEvent[];
+	events: CmoEvent[];
 };
 
 type DaySectionProps = {
 	day: string;
-	events: GCalEvent[];
+	events: CmoEvent[];
 };
 
 type ShiftCardProps = {
-	event: GCalEvent;
+	event: CmoEvent;
 };
 
 const DaySection: React.FC<DaySectionProps> = ({ day, events }) => {
@@ -38,32 +37,22 @@ const DaySection: React.FC<DaySectionProps> = ({ day, events }) => {
 };
 
 const ShiftCard: React.FC<ShiftCardProps> = ({ event }) => {
-	const startTime = moment(event.start.dateTime).format("h:mm A");
-	const endTime = moment(event.end.dateTime).format("h:mm A");
+	const startTime = event.startTimeString;
+	const endTime = event.endTimeString;
 	// console.log(event.description.split("\n"));
 	return (
 		<Card className='gap-2'>
 			<CardHeader>
-				<CardTitle>{event.summary}</CardTitle>
+				<CardTitle>{event.title}</CardTitle>
 				<CardDescription>{`${startTime} - ${endTime}`}</CardDescription>
 			</CardHeader>
 		</Card>
 	);
 };
 
-const DashboardOverview: React.FC<OverviewProps> = ({ date, shifts }) => {
-	const inShift = (shift: GCalEvent, employeeName: string) => {
-		const lines = shift.description.split("\n");
-		// const [first, lastInit, role, timeEh] = lines[1].split(" ");
-		for (const line of lines) {
-			if (line.startsWith(employeeName)) {
-				return true;
-			}
-		}
-		return false;
-	};
-	const myShifts = groupEventsByDay(
-		shifts.filter((shift) => inShift(shift, "Aldi G.")),
+const DashboardOverview: React.FC<OverviewProps> = ({ date, events }) => {
+	const myEvents = groupEventsByDay(
+		events.filter((event) => event.inEvent("Aldi G.")),
 		date?.from,
 		date?.to
 	);
@@ -90,7 +79,7 @@ const DashboardOverview: React.FC<OverviewProps> = ({ date, shifts }) => {
 					</CardHeader>
 					<CardContent>
 						<div className='text-2xl font-bold'>
-							{myShifts.length}
+							{myEvents.length}
 						</div>
 						<p className='text-xs text-muted-foreground'>
 							+20.1% from last month
@@ -175,7 +164,7 @@ const DashboardOverview: React.FC<OverviewProps> = ({ date, shifts }) => {
 			</div>
 			<div className='mx-6 mb-5 flex flex-col gap-2 '>
 				<h3 className='text-3xl font-bold'>Your Shifts</h3>
-				{myShifts.map((day) => {
+				{myEvents.map((day) => {
 					return (
 						<DaySection
 							key={day.day}
