@@ -77,6 +77,12 @@ export class CmoEvent {
 		return false;
 	}
 
+	get hasOpenShifts() {
+		return (
+			this.openShifts.length > 0 && !this.title.startsWith("[Canceled]")
+		);
+	}
+
 	get longDateString() {
 		return this.start.format("dddd, MMMM Do YYYY");
 	}

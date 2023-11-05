@@ -11,6 +11,7 @@ type AuthValues = {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	supabase: SupabaseClient<any, "public", any>;
 	session: Session | null;
+	getSession: () => Promise<Session | null>;
 	error: AuthError | null;
 	isLoading: boolean;
 };
@@ -43,9 +44,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 		return subscription.unsubscribe;
 	}, [supabase.auth]);
 
+	async function getSession() {
+		const { data, error } = await supabase.auth.getSession();
+		if (error) {
+			setError(error);
+		} else if (data.session) {
+			return data.session;
+		}
+		return null;
+	}
+
 	const value = {
 		supabase,
 		session,
+		getSession,
 		error,
 		isLoading,
 	};
