@@ -70,9 +70,17 @@ export class CmoEvent {
       });
     });
   }
+
   inEvent(employeeName: string) {
     for (const shift of this.filledShifts) {
       if (shift.filledBy == employeeName) return true;
+    }
+    return false;
+  }
+
+  roleInEvent(employeeName: string) {
+    for (const shift of this.filledShifts) {
+      if (shift.filledBy == employeeName) return shift.role;
     }
     return false;
   }
@@ -92,5 +100,10 @@ export class CmoEvent {
   }
   get timeRangeString() {
     return `${this.startTimeString} - ${this.endTimeString}`;
+  }
+  get longTimeRangeString() {
+    return `${dateFormat(this.start, "EEEE MMMM dd, h:mm a")} - ${
+      this.endTimeString
+    }`;
   }
 }

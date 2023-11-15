@@ -11,7 +11,7 @@ const UpcomingShifts = ({ events }: Props) => {
     // return event.start.isBefore(momen);
   });
   return (
-    <div className="flex snap-x snap-mandatory gap-5 overflow-y-hidden pb-2">
+    <div className="flex snap-x snap-mandatory scroll-p-4 gap-5 overflow-y-hidden pb-2">
       {upcomingShifts.map((event) => {
         return <DashboardShiftCard key={event.id} event={event} />;
       })}
