@@ -54,8 +54,8 @@ const MyShifts: React.FC<OverviewProps> = ({ date, events }) => {
 	);
 
 	return (
-		<TabsContent value='myShifts' className='space-y-4 px-2'>
-			<div className='mb-5 flex flex-col gap-2 '>
+		<TabsContent value='myShifts' className='space-y-4'>
+			<div className='mx-2 mb-5 flex flex-col gap-2 '>
 				<h3 className='text-3xl font-bold'>Your Shifts</h3>
 				{myEvents.map((day) => {
 					return (
