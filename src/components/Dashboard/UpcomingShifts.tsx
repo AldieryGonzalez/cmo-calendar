@@ -7,11 +7,12 @@ type Props = {
 
 const UpcomingShifts = ({ events }: Props) => {
   const upcomingShifts = events.filter((event) => {
+    return event.inEvent("Aldi G.");
     // return event.start.isBefore(momen);
   });
   return (
     <div className="flex snap-x snap-mandatory gap-5 overflow-y-hidden pb-2">
-      {events.map((event) => {
+      {upcomingShifts.map((event) => {
         return <DashboardShiftCard key={event.id} event={event} />;
       })}
     </div>

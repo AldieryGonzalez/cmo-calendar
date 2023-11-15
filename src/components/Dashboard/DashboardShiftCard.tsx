@@ -9,7 +9,7 @@ const DashboardShiftCard: React.FC<ShiftCardProps> = ({ event }) => {
     <div className="relative inline-flex h-28 w-72 snap-start items-start justify-start gap-4 rounded-md border border-gray-200 py-2.5 pl-2 shadow transition">
       <div className="inline-flex flex-col items-start justify-start gap-1 pr-[59px]">
         <div className="w-[200px] text-sm font-semibold leading-tight text-slate-900">
-          Stage Manager
+          {event.filledShifts[0].role}
         </div>
         <div className="w-[200px] text-[11px] font-normal leading-tight text-slate-900">
           {event.title}

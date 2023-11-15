@@ -1,36 +1,39 @@
-import moment from "moment";
+import { isAfter, isBefore, addYears, startOfDay, endOfDay } from "date-fns";
 import { CmoEvent } from "./classes/CmoEvent";
 
 type EventByDayObj = { [day: string]: CmoEvent[] };
+const isBetween = (eventDate: Date, start: Date, end: Date) => {
+  start = startOfDay(start);
+  end = endOfDay(end);
+  return isAfter(eventDate, start) && isBefore(eventDate, end);
+};
 
-export function groupEventsByDay(
-	events: CmoEvent[],
-	startDate: Date | undefined,
-	endDate: Date | undefined
-) {
-	const eventsByDay: EventByDayObj = {};
-	const start = moment(startDate);
-	const end = moment(endDate);
+export const getEventsBetween = (
+  events: CmoEvent[],
+  start = new Date(),
+  end = addYears(new Date(), 1),
+) => {
+  return events.filter((event) => isBetween(event.start, start, end));
+};
 
-	for (const event of events) {
-		const eventDate = event.start;
+export function groupEventsByDay(events: CmoEvent[]) {
+  const eventsByDay: EventByDayObj = {};
 
-		if (eventDate.isBetween(start, end, "day", "[]")) {
-			const eventDay = event.longDateString;
+  for (const event of events) {
+    const eventDay = event.longDateString;
+    if (!eventsByDay[eventDay]) {
+      eventsByDay[eventDay] = [];
+    }
 
-			if (!eventsByDay[eventDay]) {
-				eventsByDay[eventDay] = [];
-			}
+    eventsByDay[eventDay].push(event);
+  }
 
-			eventsByDay[eventDay].push(event);
-		}
-	}
-	const groupedEventsArray = Object.entries(eventsByDay).map(
-		([day, events]) => ({
-			day,
-			events,
-		})
-	);
+  const groupedEventsArray = Object.entries(eventsByDay).map(
+    ([day, events]) => ({
+      day,
+      events,
+    }),
+  );
 
-	return groupedEventsArray;
+  return groupedEventsArray;
 }
