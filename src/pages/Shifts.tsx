@@ -28,7 +28,7 @@ const Shifts = () => {
 
   return (
     <div className="flex-1 space-y-4 p-5 pt-6">
-      <Tabs defaultValue="myShifts" className="space-y-4">
+      <Tabs defaultValue="myShifts" className="space-y-4 pb-2">
         <div className="flex flex-col items-center justify-between gap-6 space-x-2 md:flex-row">
           <TabsList>
             <TabsTrigger value="myShifts">My Shifts</TabsTrigger>

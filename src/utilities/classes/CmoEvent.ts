@@ -50,7 +50,7 @@ export class CmoEvent {
         matchMap.extra.push(line);
       }
     }
-    this.notes = matchMap.extra.join("/n").trim();
+    this.notes = matchMap.extra.join("\n").trim();
     this.openShifts = matchMap.open.map((shift) => {
       return new Shift({
         filledBy: null,

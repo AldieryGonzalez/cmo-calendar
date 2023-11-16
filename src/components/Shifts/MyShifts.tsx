@@ -42,8 +42,11 @@ const ShiftCard: React.FC<ShiftCardProps> = ({ event }) => {
   return (
     <Card className="gap-2">
       <CardHeader>
-        <CardTitle>{event.title}</CardTitle>
+        <CardTitle>{`${event.title} - ${event.roleInEvent(
+          "Aldi G.",
+        )}`}</CardTitle>
         <CardDescription>{event.timeRangeString}</CardDescription>
+        <pre className="whitespace-pre font-sans">{event.notes}</pre>
       </CardHeader>
     </Card>
   );
