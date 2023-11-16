@@ -3,7 +3,7 @@ import { Outlet } from "react-router";
 
 const Layout = () => {
   return (
-    <div className="flex h-screen flex-col">
+    <div className="grid h-screen grid-rows-[min-content_92%]">
       <Navbar />
       <Outlet />
     </div>
