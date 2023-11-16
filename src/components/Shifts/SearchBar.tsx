@@ -98,7 +98,7 @@ const SearchBar = React.forwardRef<HTMLInputElement, SearchBarProps>(
               <SelectContent>
                 <SelectItem value="galvin">Galvin</SelectItem>
                 <SelectItem value="mcclintock">McClintock</SelectItem>
-                <SelectItem value="pick">Pick</SelectItem>
+                <SelectItem value="pick-staiger">Pick-Staiger</SelectItem>
                 <SelectItem value="mcr">MCR</SelectItem>
               </SelectContent>
             </Select>

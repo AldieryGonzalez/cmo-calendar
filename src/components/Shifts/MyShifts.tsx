@@ -64,6 +64,9 @@ const MyShifts: React.FC<OverviewProps> = ({ searchParams, events }) => {
         searchParams.get("search") as string,
         "Aldi G.",
       )
+      //   &&
+      // event.location.toLowerCase() ==
+      //   (searchParams.get("where")?.toLowerCase() as string)
     );
   });
   const myEvents = groupEventsByDay(
