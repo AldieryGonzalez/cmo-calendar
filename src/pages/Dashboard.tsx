@@ -2,6 +2,7 @@ import { useCalendar } from "@/utilities/useCalendar";
 import SimpleLoading from "@/layouts/SimpleLoading";
 import UpcomingShifts from "@/components/Dashboard/UpcomingShifts";
 import PastShifts from "@/components/Dashboard/PastShifts";
+import DashboardMessages from "@/components/Dashboard/DashboardMessages";
 
 const Dashboard = () => {
   const { data } = useCalendar();
@@ -16,8 +17,8 @@ const Dashboard = () => {
         <h3 className="text-xl font-normal">Upcoming Shifts</h3>
         <UpcomingShifts events={data} />
       </div>
-      <div className="flex overflow-auto  p-2">
-        <div className="grow">1</div>
+      <div className="flex gap-4 overflow-auto p-2">
+        <DashboardMessages />
         <PastShifts events={data} />
       </div>
     </div>
