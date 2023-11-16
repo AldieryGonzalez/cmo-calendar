@@ -6,6 +6,7 @@ import AllEvents from "./pages/AllEvents";
 import Landing from "./pages/Landing";
 import Wildcard from "./pages/Wildcard";
 import Dashboard from "./pages/Dashboard";
+import Shifts from "./pages/Shifts";
 
 function App() {
 	return (
@@ -18,6 +19,8 @@ function App() {
 					<Route path='/' element={<Landing />} />
 					<Route element={<PrivateRoutes />}>
 						<Route path='/home' element={<Dashboard />}></Route>
+						<Route path='/shifts' element={<Shifts />}></Route>
+						<Route path='/calendar' element={<AllEvents />}></Route>
 						<Route path='/calendar' element={<AllEvents />}></Route>
 					</Route>
 					<Route path='*' element={<Wildcard />} />
