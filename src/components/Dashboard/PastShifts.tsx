@@ -1,17 +1,17 @@
-import { CmoEvent } from "@/utilities/classes/CmoEvent";
+import type { CmoEvent } from "@/utilities/classes/CmoEvent";
 import DashboardShiftCard from "./DashboardShiftCard";
 
 type Props = {
   events: CmoEvent[];
 };
 
-const UpcomingShifts = ({ events }: Props) => {
+const PastShifts = ({ events }: Props) => {
   const upcomingShifts = events.filter((event) => {
     return event.inEvent("Aldi G.");
     // return event.start.isBefore(momen);
   });
   return (
-    <div className="flex snap-x snap-mandatory scroll-p-4 gap-5 overflow-y-visible overflow-x-scroll pb-2">
+    <div className="flex h-full snap-y snap-mandatory scroll-p-0.5 flex-col gap-1 overflow-x-hidden overflow-y-hidden px-2 pb-2">
       {upcomingShifts.map((event) => {
         return <DashboardShiftCard key={event.id} event={event} />;
       })}
@@ -19,4 +19,4 @@ const UpcomingShifts = ({ events }: Props) => {
   );
 };
 
-export default UpcomingShifts;
+export default PastShifts;
