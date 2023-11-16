@@ -1,5 +1,6 @@
 import { isAfter, isBefore, addYears, startOfDay, endOfDay } from "date-fns";
 import { CmoEvent } from "./classes/CmoEvent";
+import { DateRange } from "react-day-picker";
 
 type EventByDayObj = { [day: string]: CmoEvent[] };
 const isBetween = (eventDate: Date, start: Date, end: Date) => {
@@ -14,6 +15,17 @@ export const getEventsBetween = (
   end = addYears(new Date(), 1),
 ) => {
   return events.filter((event) => isBetween(event.start, start, end));
+};
+
+export const getDateRangeFromSearchParams = (searchParams: URLSearchParams) => {
+  return {
+    from: searchParams.get("start")
+      ? new Date(searchParams.get("start") as string)
+      : undefined,
+    to: searchParams.get("end")
+      ? new Date(searchParams.get("end") as string)
+      : undefined,
+  } as DateRange | undefined;
 };
 
 export function groupEventsByDay(events: CmoEvent[]) {

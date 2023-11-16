@@ -1,27 +1,29 @@
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { addMonths } from "date-fns";
-import React from "react";
-import { DateRange } from "react-day-picker";
 import { useCalendar } from "@/utilities/useCalendar";
 import SimpleLoading from "@/layouts/SimpleLoading";
 import MyShifts from "@/components/Shifts/MyShifts";
 import OpenShifts from "@/components/Shifts/OpenShifts";
 
 import SearchBar from "@/components/Shifts/SearchBar";
+import { useSearchParams } from "react-router-dom";
 
 const Shifts = () => {
-  const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(),
-    to: addMonths(new Date(), 2),
+  const [searchParams, setSearchParams] = useSearchParams({
+    start: new Date().toISOString(),
+    end: addMonths(new Date(), 2).toISOString(),
   });
 
   const { data } = useCalendar();
 
-  const handleDateChange = (dateRange: DateRange | undefined) => {
-    setDate(dateRange);
-  };
-
+  console.table({
+    start: searchParams.get("start"),
+    end: searchParams.get("end"),
+    search: searchParams.get("search"),
+    where: searchParams.get("where"),
+    setSearchParams,
+  });
   if (!data) return <SimpleLoading />;
 
   return (
@@ -32,13 +34,14 @@ const Shifts = () => {
             <TabsTrigger value="myShifts">My Shifts</TabsTrigger>
             <TabsTrigger value="openShifts">Open Shifts</TabsTrigger>
             <TabsTrigger value="allShifts">All Shifts</TabsTrigger>
-            {/* Admin Only */}
-            {/* <TabsTrigger value='requests'>Requests</TabsTrigger> */}
           </TabsList>
-          <SearchBar date={date} handleDateChange={handleDateChange} />
+          <SearchBar
+            searchParams={searchParams}
+            setSearchParams={setSearchParams}
+          />
         </div>
-        <MyShifts events={data} dateRange={date} />
-        <OpenShifts events={data} dateRange={date} />
+        <MyShifts events={data} searchParams={searchParams} />
+        <OpenShifts events={data} searchParams={searchParams} />
       </Tabs>
     </div>
   );

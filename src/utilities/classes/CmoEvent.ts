@@ -85,6 +85,30 @@ export class CmoEvent {
     return false;
   }
 
+  hasSearchTerm(searchTerm: string) {
+    if (this.title.toLowerCase().includes(searchTerm.toLowerCase()))
+      return true;
+    if (this.location.toLowerCase().includes(searchTerm.toLowerCase()))
+      return true;
+    if (this.notes.toLowerCase().includes(searchTerm.toLowerCase()))
+      return true;
+    return false;
+  }
+
+  hasFilledRoleSearchTerm(searchTerm: string, employeeName: string) {
+    const role = this.roleInEvent(employeeName);
+    if (role) {
+      return role.toLowerCase().includes(searchTerm.toLowerCase());
+    }
+  }
+
+  hasOpenRoleSearchTerm(searchTerm: string) {
+    for (const shift of this.openShifts) {
+      if (shift.role.toLowerCase().includes(searchTerm.toLowerCase()))
+        return true;
+    }
+  }
+
   get hasOpenShifts() {
     return this.openShifts.length > 0 && !this.title.startsWith("[Canceled]");
   }

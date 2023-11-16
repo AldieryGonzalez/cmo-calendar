@@ -6,12 +6,15 @@ import {
 } from "@/components/ui/card";
 import { TabsContent } from "@radix-ui/react-tabs";
 import React from "react";
-import { DateRange } from "react-day-picker";
-import { getEventsBetween, groupEventsByDay } from "@/utilities/dateUtils";
+import {
+  getDateRangeFromSearchParams,
+  getEventsBetween,
+  groupEventsByDay,
+} from "@/utilities/dateUtils";
 import { CmoEvent } from "@/utilities/classes/CmoEvent";
 
 type OverviewProps = {
-  dateRange: DateRange | undefined;
+  searchParams: URLSearchParams;
   events: CmoEvent[];
 };
 
@@ -46,14 +49,25 @@ const ShiftCard: React.FC<ShiftCardProps> = ({ event }) => {
   );
 };
 
-const MyShifts: React.FC<OverviewProps> = ({ dateRange, events }) => {
+const MyShifts: React.FC<OverviewProps> = ({ searchParams, events }) => {
+  const dateRange = getDateRangeFromSearchParams(searchParams);
   const inRangeEvents = getEventsBetween(
     events,
     dateRange?.from,
     dateRange?.to,
   );
+  const searchedEvents = inRangeEvents.filter((event) => {
+    if (!searchParams.get("search")) return true;
+    return (
+      event.hasSearchTerm(searchParams.get("search") as string) ||
+      event.hasFilledRoleSearchTerm(
+        searchParams.get("search") as string,
+        "Aldi G.",
+      )
+    );
+  });
   const myEvents = groupEventsByDay(
-    inRangeEvents.filter((event) => event.inEvent("Aldi G.")),
+    searchedEvents.filter((event) => event.inEvent("Aldi G.")),
   );
   return (
     <TabsContent value="myShifts" className="space-y-4">
