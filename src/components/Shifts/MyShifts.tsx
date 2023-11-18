@@ -30,7 +30,7 @@ type ShiftCardProps = {
 const DaySection: React.FC<DaySectionProps> = ({ day, events }) => {
   return (
     <div>
-      <h3 className="text-xl font-semibold">{day}</h3>
+      <h3 className="text-lg font-semibold">{day}</h3>
       {events.map((event) => (
         <ShiftCard key={event.id} event={event} />
       ))}
@@ -40,13 +40,13 @@ const DaySection: React.FC<DaySectionProps> = ({ day, events }) => {
 
 const ShiftCard: React.FC<ShiftCardProps> = ({ event }) => {
   return (
-    <Card className="gap-2">
-      <CardHeader>
-        <CardTitle>{`${event.title} - ${event.roleInEvent(
-          "Aldi G.",
-        )}`}</CardTitle>
-        <CardDescription>{event.timeRangeString}</CardDescription>
-        <pre className="whitespace-pre font-sans">{event.notes}</pre>
+    <Card className="">
+      <CardHeader className="space-y-0 px-4 py-2.5">
+        <CardTitle className="text-lg">{`${event.title}`}</CardTitle>
+        <CardDescription>
+          <b className="font-semibold">{`${event.roleInEvent("Aldi G.")}`}</b>
+          {` - ${event.location} - ${event.timeRangeString}`}
+        </CardDescription>
       </CardHeader>
     </Card>
   );

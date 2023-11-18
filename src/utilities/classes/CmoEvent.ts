@@ -86,11 +86,11 @@ export class CmoEvent {
   }
 
   hasSearchTerm(searchTerm: string) {
-    if (this.title.toLowerCase().includes(searchTerm.toLowerCase()))
+    if (this.title?.toLowerCase().includes(searchTerm.toLowerCase()))
       return true;
-    if (this.location.toLowerCase().includes(searchTerm.toLowerCase()))
+    if (this.location?.toLowerCase().includes(searchTerm.toLowerCase()))
       return true;
-    if (this.notes.toLowerCase().includes(searchTerm.toLowerCase()))
+    if (this.notes?.toLowerCase().includes(searchTerm.toLowerCase()))
       return true;
     return false;
   }
