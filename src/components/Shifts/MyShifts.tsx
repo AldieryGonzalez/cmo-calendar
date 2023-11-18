@@ -45,7 +45,9 @@ const ShiftCard: React.FC<ShiftCardProps> = ({ event }) => {
         <CardTitle className="text-lg">{`${event.title}`}</CardTitle>
         <CardDescription>
           <b className="font-semibold">{`${event.roleInEvent("Aldi G.")}`}</b>
-          {` - ${event.location} - ${event.timeRangeString}`}
+          {`${event.location !== undefined ? ` - ${event.location} - ` : ""}${
+            event.timeRangeString
+          }`}
         </CardDescription>
       </CardHeader>
     </Card>
@@ -63,13 +65,12 @@ const MyShifts: React.FC<OverviewProps> = ({ searchParams, events }) => {
     if (!searchParams.get("search")) return true;
     return (
       event.hasSearchTerm(searchParams.get("search") as string) ||
-      event.hasFilledRoleSearchTerm(
+      (event.hasFilledRoleSearchTerm(
         searchParams.get("search") as string,
         "Aldi G.",
-      )
-      //   &&
-      // event.location.toLowerCase() ==
-      //   (searchParams.get("where")?.toLowerCase() as string)
+      ) &&
+        event.location.toLowerCase() ==
+          (searchParams.get("where")?.toLowerCase() as string))
     );
   });
   const myEvents = groupEventsByDay(

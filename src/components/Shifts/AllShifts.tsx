@@ -53,7 +53,7 @@ const ShiftCard: React.FC<ShiftCardProps> = ({ event }) => {
   );
 };
 
-const OpenShifts: React.FC<OverviewProps> = ({ searchParams, events }) => {
+const AllShifts: React.FC<OverviewProps> = ({ searchParams, events }) => {
   const dateRange = getDateRangeFromSearchParams(searchParams);
   const inRangeEvents = getEventsBetween(
     events,
@@ -67,12 +67,10 @@ const OpenShifts: React.FC<OverviewProps> = ({ searchParams, events }) => {
       event.hasOpenRoleSearchTerm(searchParams.get("search") as string)
     );
   });
-  const myEvents = groupEventsByDay(
-    searchedEvents.filter((event) => event.hasOpenShifts),
-  );
+  const myEvents = groupEventsByDay(searchedEvents);
 
   return (
-    <TabsContent value="openShifts" className="space-y-4">
+    <TabsContent value="allShifts" className="space-y-4">
       <div className="mx-2 mb-5 flex flex-col gap-2 ">
         <h3 className="text-3xl font-bold">Open Shifts</h3>
         {myEvents.map((day) => {
@@ -83,4 +81,4 @@ const OpenShifts: React.FC<OverviewProps> = ({ searchParams, events }) => {
   );
 };
 
-export default OpenShifts;
+export default AllShifts;

@@ -8,6 +8,7 @@ import OpenShifts from "@/components/Shifts/OpenShifts";
 
 import SearchBar from "@/components/Shifts/SearchBar";
 import { useSearchParams } from "react-router-dom";
+import AllShifts from "@/components/Shifts/AllShifts";
 
 const Shifts = () => {
   const [searchParams, setSearchParams] = useSearchParams({
@@ -42,6 +43,7 @@ const Shifts = () => {
         </div>
         <MyShifts events={data} searchParams={searchParams} />
         <OpenShifts events={data} searchParams={searchParams} />
+        <AllShifts events={data} searchParams={searchParams} />
       </Tabs>
     </div>
   );

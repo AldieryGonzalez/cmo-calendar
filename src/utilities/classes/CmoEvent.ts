@@ -100,6 +100,7 @@ export class CmoEvent {
     if (role) {
       return role.toLowerCase().includes(searchTerm.toLowerCase());
     }
+    return false;
   }
 
   hasOpenRoleSearchTerm(searchTerm: string) {
@@ -107,6 +108,7 @@ export class CmoEvent {
       if (shift.role.toLowerCase().includes(searchTerm.toLowerCase()))
         return true;
     }
+    return false;
   }
 
   get hasOpenShifts() {
