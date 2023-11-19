@@ -9,7 +9,7 @@ import { Shift } from "@/utilities/classes/Shift";
 import { useCalendar } from "@/utilities/useCalendar";
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 import { ArrowLeft, MoreHorizontal, ShoppingCart, XCircle } from "lucide-react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface ShiftButtonProps {
   shift: Shift;
@@ -35,12 +35,12 @@ const ShiftButton: React.FC<ShiftButtonProps> = ({ shift, isMine }) => {
           align="end"
           alignOffset={-26}
           side="bottom"
-          className="w-full rounded-lg bg-white px-3 py-2.5"
+          className="rounded-lg bg-white px-3 py-2.5"
         >
           {shift.isUnfilled && (
             <DropdownMenuItem asChild>
               <>
-                <button className="flex w-52 items-center gap-3 text-left">
+                <button className="flex w-52 items-center gap-3 text-left text-purple-800">
                   <ShoppingCart size={20} />
                   Add to Cart
                 </button>
@@ -60,10 +60,14 @@ const ShiftButton: React.FC<ShiftButtonProps> = ({ shift, isMine }) => {
             </DropdownMenuItem>
           )}
           <DropdownMenuItem>Go to contact</DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem className="font-thin text-gray-600">
-            {shift.confirmationNote}
-          </DropdownMenuItem>
+          {shift.confirmationNote && (
+            <>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className="max-w-[30ch] font-thin text-gray-600">
+                {shift.confirmationNote}
+              </DropdownMenuItem>
+            </>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
     </li>
