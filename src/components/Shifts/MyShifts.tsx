@@ -11,6 +11,7 @@ import {
   groupEventsByDay,
 } from "@/utilities/dateUtils";
 import { CmoEvent } from "@/utilities/classes/CmoEvent";
+import { Link } from "react-router-dom";
 
 type OverviewProps = {
   searchParams: URLSearchParams;
@@ -40,15 +41,17 @@ const DaySection: React.FC<DaySectionProps> = ({ day, events }) => {
 const ShiftCard: React.FC<ShiftCardProps> = ({ event }) => {
   return (
     <Card className="">
-      <CardHeader className="space-y-0 px-4 py-2.5">
-        <CardTitle className="text-lg">{`${event.title}`}</CardTitle>
-        <CardDescription>
-          <b className="font-semibold">{`${event.roleInEvent("Aldi G.")}`}</b>
-          {`${event.location !== undefined ? ` - ${event.location} - ` : ""}${
-            event.timeRangeString
-          }`}
-        </CardDescription>
-      </CardHeader>
+      <Link to={`/shifts/${event.id}`} className="block h-full w-full">
+        <CardHeader className="space-y-0 px-4 py-2.5">
+          <CardTitle className="text-lg">{`${event.title}`}</CardTitle>
+          <CardDescription>
+            <b className="font-semibold">{`${event.roleInEvent("Aldi G.")}`}</b>
+            {`${event.location !== undefined ? ` - ${event.location} - ` : ""}${
+              event.timeRangeString
+            }`}
+          </CardDescription>
+        </CardHeader>
+      </Link>
     </Card>
   );
 };

@@ -2,12 +2,12 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PrivateRoutes from "./utilities/PrivateRoutes";
 import Layout from "./layouts/Layout";
 
-import AllEvents from "./pages/AllEvents";
 import Landing from "./pages/Landing";
 import Wildcard from "./pages/Wildcard";
 import Dashboard from "./pages/Dashboard";
 import Shifts from "./pages/Shifts";
 import EventDetails from "./pages/EventDetails";
+import Calendar from "./pages/Calendar";
 
 function App() {
   return (
@@ -21,7 +21,7 @@ function App() {
           <Route element={<PrivateRoutes />}>
             <Route path="/home" element={<Dashboard />}></Route>
             <Route path="/shifts" element={<Shifts />}></Route>
-            <Route path="/calendar" element={<AllEvents />}></Route>
+            <Route path="/calendar" element={<Calendar />}></Route>
             <Route path="/shifts/:id" element={<EventDetails />}></Route>
           </Route>
           <Route path="*" element={<Wildcard />} />
