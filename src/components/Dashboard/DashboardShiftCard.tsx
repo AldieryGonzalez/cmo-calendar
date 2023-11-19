@@ -1,4 +1,5 @@
 import { CmoEvent } from "@/utilities/classes/CmoEvent";
+import { Link } from "react-router-dom";
 
 type ShiftCardProps = {
   event: CmoEvent;
@@ -20,14 +21,14 @@ const DashboardShiftCard: React.FC<ShiftCardProps> = ({ event }) => {
           </div>
         </div>
       </div>
-      <button className="transition-all">
+      <Link to={`/shifts/${event.id}`} className="transition-all">
         <div className="absolute bottom-0 right-0 top-0 inline-flex w-1/6 flex-col items-center justify-center gap-2.5 rounded-br-md rounded-tr-md bg-purple-900 px-[5px] py-2.5 transition-all hover:w-full hover:rounded-md hover:bg-purple-800">
           <div className="w-10 text-center text-xs font-semibold leading-tight text-white">
             Go to <br />
             Event
           </div>
         </div>
-      </button>
+      </Link>
     </div>
   );
 };

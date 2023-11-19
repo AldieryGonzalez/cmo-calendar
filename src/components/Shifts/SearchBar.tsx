@@ -37,9 +37,9 @@ const SearchBar = React.forwardRef<HTMLInputElement, SearchBarProps>(
       newSearchParams.set("search", e.target.value);
       setSearchParams(newSearchParams);
     };
-    const handleWhereChange = (value: string) => {
+    const handleLocationChange = (value: string) => {
       const newSearchParams = new URLSearchParams(searchParams);
-      newSearchParams.set("where", value);
+      newSearchParams.set("location", value);
       setSearchParams(newSearchParams);
     };
     const handleDateChange = (dateRange: DateRange | undefined) => {
@@ -86,9 +86,9 @@ const SearchBar = React.forwardRef<HTMLInputElement, SearchBarProps>(
               placeholder="Search for an ensemble, musician, date or role"
               className="mb-2"
             />
-            <Label>Where</Label>
+            <Label>Location</Label>
             <Select
-              onValueChange={handleWhereChange}
+              onValueChange={handleLocationChange}
               value={searchParams.get("where") || undefined}
             >
               <SelectTrigger className="mb-2">

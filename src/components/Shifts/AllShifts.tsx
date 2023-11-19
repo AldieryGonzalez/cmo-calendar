@@ -5,13 +5,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { TabsContent } from "@radix-ui/react-tabs";
-import React from "react";
 import {
   getDateRangeFromSearchParams,
   getEventsBetween,
   groupEventsByDay,
 } from "@/utilities/dateUtils";
 import { CmoEvent } from "@/utilities/classes/CmoEvent";
+import { Link } from "react-router-dom";
 
 type OverviewProps = {
   searchParams: URLSearchParams;
@@ -41,14 +41,16 @@ const DaySection: React.FC<DaySectionProps> = ({ day, events }) => {
 const ShiftCard: React.FC<ShiftCardProps> = ({ event }) => {
   return (
     <Card>
-      <CardHeader className="space-y-0 px-4 py-2.5">
-        <CardTitle className="text-lg">{`${event.title}`}</CardTitle>
-        <CardDescription>
-          {`${event.location !== undefined ? `${event.location} - ` : ""}${
-            event.timeRangeString
-          }`}
-        </CardDescription>
-      </CardHeader>
+      <Link to={`/shifts/${event.id}`} className="block h-full w-full">
+        <CardHeader className="space-y-0 px-4 py-2.5">
+          <CardTitle className="text-lg">{`${event.title}`}</CardTitle>
+          <CardDescription>
+            {`${event.location !== undefined ? `${event.location} - ` : ""}${
+              event.timeRangeString
+            }`}
+          </CardDescription>
+        </CardHeader>
+      </Link>
     </Card>
   );
 };
@@ -61,11 +63,7 @@ const AllShifts: React.FC<OverviewProps> = ({ searchParams, events }) => {
     dateRange?.to,
   );
   const searchedEvents = inRangeEvents.filter((event) => {
-    if (!searchParams.get("search")) return true;
-    return (
-      event.hasSearchTerm(searchParams.get("search") as string) ||
-      event.hasOpenRoleSearchTerm(searchParams.get("search") as string)
-    );
+    return event.isSearched(searchParams);
   });
   const myEvents = groupEventsByDay(searchedEvents);
 
