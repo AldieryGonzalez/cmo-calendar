@@ -13,6 +13,7 @@ import { useAuth } from "@/utilities/useAuth";
 import { googleSignIn, signOut } from "@/utilities/supabase";
 import type { SupabaseClient, Session } from "@supabase/supabase-js";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { ShoppingCart } from "lucide-react";
 
 interface ReqsSupabase {
   supabase: SupabaseClient;
@@ -65,13 +66,19 @@ const UserContents: React.FC<AuthComponent> = ({ user, supabase }) => {
         >
           Calendar
         </NavLink>
+        <NavLink
+          to="/cart"
+          className="hidden text-base font-medium text-white md:block"
+        >
+          <ShoppingCart size={20} />
+        </NavLink>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button>
               <div className=" hidden items-center  justify-start gap-0.5 rounded-full border-black border-opacity-10 bg-purple-900 md:flex ">
                 <img
-                  className="mr-2 h-8 w-8 rounded-full"
+                  className="h-8 w-8 rounded-full"
                   src={user.user.user_metadata.avatar_url}
                   alt="Profile photo"
                   onError={(e) => {
@@ -80,16 +87,6 @@ const UserContents: React.FC<AuthComponent> = ({ user, supabase }) => {
                     e.currentTarget.onerror = null;
                   }}
                 />
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="12"
-                  height="12"
-                  fill="white"
-                  className="bi bi-caret-down-fill"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.658l-4.796 5.48a1 1 0 0 1-1.506 0z" />
-                </svg>
               </div>
               <div className="md:hidden">
                 <svg
@@ -111,8 +108,16 @@ const UserContents: React.FC<AuthComponent> = ({ user, supabase }) => {
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
             <DropdownMenuLabel>Welcome, {userName}</DropdownMenuLabel>
-            <DropdownMenuSeparator />
+
             <DropdownMenuGroup className="md:hidden">
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <Link to="/cart">
+                  <ShoppingCart size={16} />
+                  <p className="ml-1">Cart</p>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
                 <Link to="/home">Dashboard</Link>
               </DropdownMenuItem>
