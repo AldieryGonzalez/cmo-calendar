@@ -1,5 +1,15 @@
+import { getMonthMatrix } from "@/utilities/dateUtils";
+
 const Calendar = () => {
-  return <div>Calendar</div>;
+  return (
+    <button
+      onClick={() => {
+        getMonthMatrix();
+      }}
+    >
+      Calendar
+    </button>
+  );
 };
 
 export default Calendar;

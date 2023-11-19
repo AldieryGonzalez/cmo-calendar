@@ -49,3 +49,18 @@ export function groupEventsByDay(events: CmoEvent[]) {
 
   return groupedEventsArray;
 }
+
+export const getMonthMatrix = (date: Date = new Date()) => {
+  const year = date.getFullYear();
+  const firstDay = new Date(year, date.getMonth(), 1).getDay();
+  let currentDay = 0 - firstDay;
+  const daysMatrix = new Array(5).fill([]).map(() => {
+    return new Array(7).fill(null).map(() => {
+      currentDay++;
+      const newDate = new Date(year, date.getMonth(), currentDay);
+      return newDate;
+    });
+  });
+  console.table(daysMatrix);
+  return daysMatrix;
+};
