@@ -16,6 +16,7 @@ export class CmoEvent {
   creator: string;
   updated: Date;
   created: Date;
+  allShifts: Shift[];
   openShifts: Shift[];
   filledShifts: Shift[];
   start: Date;
@@ -69,6 +70,29 @@ export class CmoEvent {
         confirmationNote: shift[5],
       });
     });
+
+    this.allShifts = [...this.openShifts, ...this.filledShifts].sort((a, b) => {
+      const roleHierarchy = [
+        "SM",
+        "SM Shadow",
+        "Tech",
+        "PA",
+        "PA Shadow",
+        "REC",
+        "REC Shadow",
+        "VID",
+        "VID Shadow",
+      ];
+
+      let roleAIndex = roleHierarchy.indexOf(a.role);
+      let roleBIndex = roleHierarchy.indexOf(b.role);
+
+      // If role is not found in the hierarchy, assign a high index
+      if (roleAIndex === -1) roleAIndex = roleHierarchy.length;
+      if (roleBIndex === -1) roleBIndex = roleHierarchy.length;
+
+      return roleAIndex - roleBIndex;
+    });
   }
 
   inEvent(employeeName: string) {
@@ -85,22 +109,31 @@ export class CmoEvent {
     return false;
   }
 
-  hasSearchTerm(searchTerm: string) {
+  isSearched(searchParam: URLSearchParams, employeeName: string = "") {
+    return (
+      this.hasSearchTerm(searchParam.get("search"), employeeName) &&
+      this.hasLocationSearchTerm(searchParam.get("location"))
+    );
+  }
+
+  hasSearchTerm(searchTerm: string | null, employeeName: string = "") {
+    if (searchTerm == null) return true;
+    const role = this.roleInEvent(employeeName);
     if (this.title?.toLowerCase().includes(searchTerm.toLowerCase()))
       return true;
     if (this.location?.toLowerCase().includes(searchTerm.toLowerCase()))
       return true;
     if (this.notes?.toLowerCase().includes(searchTerm.toLowerCase()))
       return true;
+    if (role !== false && role.toLowerCase().includes(searchTerm.toLowerCase()))
+      return true;
+    else if (this.hasOpenRoleSearchTerm(searchTerm)) return true;
     return false;
   }
-
-  hasFilledRoleSearchTerm(searchTerm: string, employeeName: string) {
-    const role = this.roleInEvent(employeeName);
-    if (role) {
-      return role.toLowerCase().includes(searchTerm.toLowerCase());
-    }
-    return false;
+  hasLocationSearchTerm(searchTerm: string | null) {
+    if (this.location == null) return false;
+    if (searchTerm == null) return true;
+    return this.location.toLowerCase().includes(searchTerm.toLowerCase());
   }
 
   hasOpenRoleSearchTerm(searchTerm: string) {
@@ -109,6 +142,13 @@ export class CmoEvent {
         return true;
     }
     return false;
+  }
+  get allShiftsStringArray() {
+    return this.allShifts.map((shift) => shift.stringify);
+  }
+
+  get hasFilledShifts() {
+    return this.filledShifts.length > 0;
   }
 
   get hasOpenShifts() {

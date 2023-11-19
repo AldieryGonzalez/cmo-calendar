@@ -18,13 +18,6 @@ const Shifts = () => {
 
   const { data } = useCalendar();
 
-  console.table({
-    start: searchParams.get("start"),
-    end: searchParams.get("end"),
-    search: searchParams.get("search"),
-    where: searchParams.get("where"),
-    setSearchParams,
-  });
   if (!data) return <SimpleLoading />;
 
   return (

@@ -61,11 +61,7 @@ const AllShifts: React.FC<OverviewProps> = ({ searchParams, events }) => {
     dateRange?.to,
   );
   const searchedEvents = inRangeEvents.filter((event) => {
-    if (!searchParams.get("search")) return true;
-    return (
-      event.hasSearchTerm(searchParams.get("search") as string) ||
-      event.hasOpenRoleSearchTerm(searchParams.get("search") as string)
-    );
+    return event.isSearched(searchParams);
   });
   const myEvents = groupEventsByDay(searchedEvents);
 

@@ -62,16 +62,7 @@ const MyShifts: React.FC<OverviewProps> = ({ searchParams, events }) => {
     dateRange?.to,
   );
   const searchedEvents = inRangeEvents.filter((event) => {
-    if (!searchParams.get("search")) return true;
-    return (
-      event.hasSearchTerm(searchParams.get("search") as string) ||
-      (event.hasFilledRoleSearchTerm(
-        searchParams.get("search") as string,
-        "Aldi G.",
-      ) &&
-        event.location.toLowerCase() ==
-          (searchParams.get("where")?.toLowerCase() as string))
-    );
+    return event.isSearched(searchParams, "Aldi G.");
   });
   const myEvents = groupEventsByDay(
     searchedEvents.filter((event) => event.inEvent("Aldi G.")),
