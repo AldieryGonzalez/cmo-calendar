@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Input, InputProps } from "../ui/input";
 import { SearchIcon, SlidersHorizontal } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -31,11 +31,13 @@ interface SearchBarProps extends InputProps {
 
 const SearchBar = React.forwardRef<HTMLInputElement, SearchBarProps>(
   ({ className, searchParams, setSearchParams, ...props }, ref) => {
+    const [control, setControl] = useState(searchParams.get("search") || "");
     const dateRange = getDateRangeFromSearchParams(searchParams);
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const newSearchParams = new URLSearchParams(searchParams);
       newSearchParams.set("search", e.target.value);
       setSearchParams(newSearchParams);
+      setControl(e.target.value);
     };
     const handleLocationChange = (value: string) => {
       const newSearchParams = new URLSearchParams(searchParams);
@@ -67,7 +69,7 @@ const SearchBar = React.forwardRef<HTMLInputElement, SearchBarProps>(
           type="search"
           ref={ref}
           onChange={handleSearchChange}
-          value={searchParams.get("search") || undefined}
+          value={control}
           placeholder="Search for an ensemble, musician, date or role"
           className="w-full p-2 placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
         />
