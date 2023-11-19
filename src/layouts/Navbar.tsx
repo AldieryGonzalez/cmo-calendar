@@ -67,9 +67,10 @@ const UserContents: React.FC<AuthComponent> = ({ user, supabase }) => {
         </NavLink>
         <NavLink
           to="/cart"
-          className="hidden text-base font-medium text-white md:block"
+          className="hidden gap-0.5 rounded-full border-black border-opacity-10 bg-purple-900 text-base font-medium text-white md:flex md:items-center md:justify-center md:gap-0.5"
         >
           <ShoppingCart size={20} />
+          Cart
         </NavLink>
 
         <DropdownMenu>

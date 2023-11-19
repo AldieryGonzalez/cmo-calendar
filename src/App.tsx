@@ -8,6 +8,7 @@ import Dashboard from "./pages/Dashboard";
 import Shifts from "./pages/Shifts";
 import EventDetails from "./pages/EventDetails";
 import Calendar from "./pages/Calendar";
+import Cart from "./pages/Cart";
 
 function App() {
   return (
@@ -21,8 +22,9 @@ function App() {
           <Route element={<PrivateRoutes />}>
             <Route path="/home" element={<Dashboard />}></Route>
             <Route path="/shifts" element={<Shifts />}></Route>
-            <Route path="/calendar" element={<Calendar />}></Route>
             <Route path="/shifts/:id" element={<EventDetails />}></Route>
+            <Route path="/calendar" element={<Calendar />}></Route>
+            <Route path="/cart" element={<Cart />}></Route>
           </Route>
           <Route path="*" element={<Wildcard />} />
         </Route>
