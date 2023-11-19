@@ -89,7 +89,7 @@ const SearchBar = React.forwardRef<HTMLInputElement, SearchBarProps>(
             <Label>Location</Label>
             <Select
               onValueChange={handleLocationChange}
-              value={searchParams.get("location") || undefined}
+              value={searchParams.get("where") || undefined}
             >
               <SelectTrigger className="mb-2">
                 <SelectValue placeholder="Select a hall" />

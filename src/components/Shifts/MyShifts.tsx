@@ -5,7 +5,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { TabsContent } from "@radix-ui/react-tabs";
-import React from "react";
 import {
   getDateRangeFromSearchParams,
   getEventsBetween,
