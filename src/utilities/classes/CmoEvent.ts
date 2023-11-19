@@ -67,7 +67,7 @@ export class CmoEvent {
         role: shift[2],
         start: shift[4],
         end: shift[5],
-        confirmationNote: shift[5],
+        confirmationNote: shift[6],
       });
     });
 

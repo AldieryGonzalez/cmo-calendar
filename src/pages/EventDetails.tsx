@@ -8,8 +8,8 @@ import { cn } from "@/lib/utils";
 import { Shift } from "@/utilities/classes/Shift";
 import { useCalendar } from "@/utilities/useCalendar";
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
-import { MoreHorizontal, ShoppingCart, XCircle } from "lucide-react";
-import { useParams } from "react-router-dom";
+import { ArrowLeft, MoreHorizontal, ShoppingCart, XCircle } from "lucide-react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 interface ShiftButtonProps {
   shift: Shift;
@@ -60,6 +60,10 @@ const ShiftButton: React.FC<ShiftButtonProps> = ({ shift, isMine }) => {
             </DropdownMenuItem>
           )}
           <DropdownMenuItem>Go to contact</DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem className="font-thin text-gray-600">
+            {shift.confirmationNote}
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </li>
@@ -69,12 +73,20 @@ const ShiftButton: React.FC<ShiftButtonProps> = ({ shift, isMine }) => {
 const EventDetails = () => {
   const { id } = useParams<{ id: string }>();
   const { data } = useCalendar();
+  const navigate = useNavigate();
   if (!data) return null;
   const event = data.find((event) => event.id === id);
   if (!event) return null;
   const roleInEvent = event.roleInEvent("Aldi G.");
   return (
     <div className="container py-8">
+      <nav className="flex items-center space-x-2">
+        <button onClick={() => navigate(-1)} className="flex text-purple-800">
+          <ArrowLeft />
+          Back
+        </button>
+      </nav>
+
       <section className="flex flex-col space-y-2">
         <h1 className="text-xl font-medium md:text-2xl">{event.title}</h1>
         <div className="flex flex-col text-sm text-gray-600 sm:flex-row">
