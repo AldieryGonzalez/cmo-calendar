@@ -32,6 +32,7 @@ interface SearchBarProps extends InputProps {
 const SearchBar = React.forwardRef<HTMLInputElement, SearchBarProps>(
   ({ className, searchParams, setSearchParams, ...props }, ref) => {
     const [control, setControl] = useState(searchParams.get("search") || "");
+    const [control2, setControl2] = useState(searchParams.get("where") || "");
     const dateRange = getDateRangeFromSearchParams(searchParams);
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const newSearchParams = new URLSearchParams(searchParams);
@@ -43,6 +44,7 @@ const SearchBar = React.forwardRef<HTMLInputElement, SearchBarProps>(
       const newSearchParams = new URLSearchParams(searchParams);
       newSearchParams.set("location", value);
       setSearchParams(newSearchParams);
+      setControl2(value);
     };
     const handleDateChange = (dateRange: DateRange | undefined) => {
       if (dateRange) {
@@ -84,24 +86,22 @@ const SearchBar = React.forwardRef<HTMLInputElement, SearchBarProps>(
             <Label>Search</Label>
             <Input
               onChange={handleSearchChange}
-              value={searchParams.get("search") || undefined}
+              value={control}
               placeholder="Search for an ensemble, musician, date or role"
               className="mb-2"
             />
             <Label>Location</Label>
-            <Select
-              onValueChange={handleLocationChange}
-              value={searchParams.get("where") || undefined}
-            >
+            <Select onValueChange={handleLocationChange} value={control2}>
               <SelectTrigger className="mb-2">
                 <SelectValue placeholder="Select a hall" />
               </SelectTrigger>
 
               <SelectContent>
+                <SelectItem value="pick-staiger">Pick-Staiger</SelectItem>
                 <SelectItem value="galvin">Galvin</SelectItem>
                 <SelectItem value="mcclintock">McClintock</SelectItem>
-                <SelectItem value="pick-staiger">Pick-Staiger</SelectItem>
                 <SelectItem value="mcr">MCR</SelectItem>
+                <SelectItem value="rot">ROT</SelectItem>
               </SelectContent>
             </Select>
             <Label>Date Range</Label>

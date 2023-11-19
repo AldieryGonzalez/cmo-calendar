@@ -5,17 +5,27 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
+import { CmoEvent } from "@/utilities/classes/CmoEvent";
 import { Shift } from "@/utilities/classes/Shift";
 import { useCalendar } from "@/utilities/useCalendar";
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
-import { ArrowLeft, MoreHorizontal, ShoppingCart, XCircle } from "lucide-react";
+import {
+  ArrowLeft,
+  Contact,
+  MoreHorizontal,
+  ShoppingCart,
+  XCircle,
+} from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 
 interface ShiftButtonProps {
   shift: Shift;
   isMine: boolean;
+  event: CmoEvent;
 }
-const ShiftButton: React.FC<ShiftButtonProps> = ({ shift, isMine }) => {
+const ShiftButton: React.FC<ShiftButtonProps> = ({ shift, isMine, event }) => {
+  const canAddToCart = !event.hasPast;
+  const canRequestSub = !event.hasPast;
   return (
     <li
       className={cn({
@@ -38,28 +48,39 @@ const ShiftButton: React.FC<ShiftButtonProps> = ({ shift, isMine }) => {
           className="rounded-lg bg-white px-3 py-2.5"
         >
           {shift.isUnfilled && (
-            <DropdownMenuItem asChild>
-              <>
-                <button className="flex w-52 items-center gap-3 text-left text-purple-800">
+            <>
+              <DropdownMenuItem asChild>
+                <button
+                  disabled={!canAddToCart}
+                  className="flex w-52 items-center gap-3 rounded text-left text-purple-800 hover:bg-black/20 disabled:cursor-not-allowed disabled:opacity-50"
+                >
                   <ShoppingCart size={20} />
                   Add to Cart
                 </button>
-                <DropdownMenuSeparator />
-              </>
-            </DropdownMenuItem>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+            </>
           )}
           {isMine && (
-            <DropdownMenuItem asChild>
-              <>
-                <button className="flex w-52 items-center gap-2 text-left text-red-700">
+            <>
+              <DropdownMenuItem asChild>
+                <button
+                  disabled={!canRequestSub}
+                  className="flex w-52 items-center gap-2 rounded text-left text-red-700 hover:bg-black/20 disabled:cursor-not-allowed disabled:opacity-50"
+                >
                   <XCircle size={20} />
-                  Request Shift Sub
+                  <span>Request Shift Sub</span>
                 </button>
-                <DropdownMenuSeparator />
-              </>
-            </DropdownMenuItem>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+            </>
           )}
-          <DropdownMenuItem>Go to contact</DropdownMenuItem>
+          <DropdownMenuItem asChild className="rounded hover:bg-black/20">
+            <button className="flex w-52 items-center gap-2 rounded text-left hover:bg-black/20">
+              <Contact size={20} />
+              <span>Go to contact</span>
+            </button>
+          </DropdownMenuItem>
           {shift.confirmationNote && (
             <>
               <DropdownMenuSeparator />
@@ -109,10 +130,16 @@ const EventDetails = () => {
                   isMine={
                     roleInEvent === shift.role && shift.filledBy === "Aldi G."
                   }
+                  event={event}
                 />
               );
             })}
           </ul>
+        </div>
+        <div>
+          <label className="text-lg font-medium">Notes</label>
+          <hr className="p-0.5"></hr>
+          <pre>{event.notes}</pre>
         </div>
       </section>
     </div>

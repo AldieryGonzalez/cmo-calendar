@@ -133,7 +133,21 @@ export class CmoEvent {
   hasLocationSearchTerm(searchTerm: string | null) {
     if (this.location == null) return false;
     if (searchTerm == null) return true;
-    return this.location.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const searchTermsMap: { [key: string]: string[] } = {
+      "pick-staiger": ["pick-staiger", "pick", "pick staiger"],
+      galvin: ["galvin"],
+      mcclintock: ["mcclintock"],
+      mcr: ["mcr", "master class room"],
+      rot: ["rot", "ryan opera theatre", "ryan opera theater"],
+    };
+    const searchTerms = searchTermsMap[searchTerm] || [searchTerm];
+
+    for (const term of searchTerms) {
+      const lowerCaseTerm = term.toLowerCase();
+      if (this.location.toLowerCase().includes(lowerCaseTerm)) return true;
+    }
+    return false;
   }
 
   hasOpenRoleSearchTerm(searchTerm: string) {
@@ -153,6 +167,10 @@ export class CmoEvent {
 
   get hasOpenShifts() {
     return this.openShifts.length > 0 && !this.title.startsWith("[Canceled]");
+  }
+
+  get hasPast() {
+    return this.end < new Date();
   }
 
   get longDateString() {
