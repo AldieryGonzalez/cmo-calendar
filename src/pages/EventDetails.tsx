@@ -15,22 +15,25 @@ const EventDetails = () => {
         <h1 className="text-2xl font-semibold">{event.title}</h1>
         <p className="text-gray-600">{event.longTimeRangeString}</p>
         <p>{event.location}</p>
-        <ul className="mt">
-          {event.allShifts.map((shift, index) => {
-            return (
-              <li
-                key={shift.stringify + index}
-                className={cn({
-                  ["w-fit rounded-full px-4 py-1"]: true,
-                  ["bg-zinc-500/25 font-medium"]: roleInEvent == shift.role,
-                })}
-              >
-                {shift.stringify}
-              </li>
-            );
-          })}
-        </ul>
-        <div className="mt-4"></div>
+        <div>
+          <label className="text-lg font-medium">Shifts</label>
+          <hr className="p-0.5"></hr>
+          <ul className="w-fit">
+            {event.allShifts.map((shift, index) => {
+              return (
+                <li
+                  key={shift.stringify + index}
+                  className={cn({
+                    ["w-full rounded-full px-4 py-1"]: true,
+                    ["bg-zinc-500/25 font-medium"]: roleInEvent == shift.role,
+                  })}
+                >
+                  {shift.stringify}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       </section>
     </div>
   );
