@@ -139,7 +139,7 @@ const EventDetails = () => {
         <div>
           <label className="text-lg font-medium">Notes</label>
           <hr className="p-0.5"></hr>
-          <pre>{event.notes}</pre>
+          <pre className="whitespace-pre-wrap">{event.notes}</pre>
         </div>
       </section>
     </div>
