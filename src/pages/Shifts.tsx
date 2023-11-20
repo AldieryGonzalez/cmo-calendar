@@ -14,7 +14,14 @@ const Shifts = () => {
   const [searchParams, setSearchParams] = useSearchParams({
     start: new Date().toISOString(),
     end: addMonths(new Date(), 2).toISOString(),
+    shifts: "myShifts",
   });
+
+  const handleTabChange = (value: string) => {
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set("shifts", value);
+    setSearchParams(newSearchParams);
+  };
 
   const { data } = useCalendar();
 
@@ -22,7 +29,11 @@ const Shifts = () => {
 
   return (
     <div className="flex-1 space-y-4 p-5 pt-6">
-      <Tabs defaultValue="myShifts" className="space-y-4 pb-2">
+      <Tabs
+        defaultValue={searchParams.get("shifts") || "myShifts"}
+        onValueChange={handleTabChange}
+        className="space-y-4 pb-2"
+      >
         <div className="flex flex-col items-center justify-between gap-6 space-x-2 md:flex-row">
           <TabsList>
             <TabsTrigger value="myShifts">My Shifts</TabsTrigger>

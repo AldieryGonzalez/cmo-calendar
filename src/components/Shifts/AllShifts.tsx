@@ -70,7 +70,7 @@ const AllShifts: React.FC<OverviewProps> = ({ searchParams, events }) => {
   return (
     <TabsContent value="allShifts" className="space-y-4">
       <div className="mx-2 mb-5 flex flex-col gap-2 ">
-        <h3 className="text-3xl font-bold">Open Shifts</h3>
+        <h3 className="text-3xl font-bold">Shift Schedule</h3>
         {myEvents.map((day) => {
           return <DaySection key={day.day} day={day.day} events={day.events} />;
         })}

@@ -38,7 +38,11 @@ export class CmoEvent {
     this.end = new Date(event.end.dateTime);
 
     const matchMap: MatchMap = { filled: [], open: [], extra: [] };
-    const descLines = event.description.split("\n");
+    const cleanDescription = event.description
+      .replaceAll("<span>", "")
+      .replaceAll("</span>", "")
+      .replaceAll("<br>", "\n");
+    const descLines = cleanDescription.split("\n");
 
     for (const line of descLines) {
       const full = line.match(this.fullShiftPattern);
