@@ -37,13 +37,13 @@ const SearchBar = React.forwardRef<HTMLInputElement, SearchBarProps>(
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const newSearchParams = new URLSearchParams(searchParams);
       newSearchParams.set("search", e.target.value);
-      setSearchParams(newSearchParams);
+      setSearchParams(newSearchParams, { replace: true });
       setControl(e.target.value);
     };
     const handleLocationChange = (value: string) => {
       const newSearchParams = new URLSearchParams(searchParams);
       newSearchParams.set("location", value);
-      setSearchParams(newSearchParams);
+      setSearchParams(newSearchParams, { replace: true });
       setControl2(value);
     };
     const handleDateChange = (dateRange: DateRange | undefined) => {
@@ -55,7 +55,7 @@ const SearchBar = React.forwardRef<HTMLInputElement, SearchBarProps>(
         if (dateRange.to) {
           newSearchParams.set("end", dateRange.to.toISOString());
         }
-        setSearchParams(newSearchParams);
+        setSearchParams(newSearchParams, { replace: true });
       }
     };
     return (

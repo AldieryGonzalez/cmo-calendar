@@ -20,7 +20,7 @@ const Shifts = () => {
   const handleTabChange = (value: string) => {
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set("shifts", value);
-    setSearchParams(newSearchParams);
+    setSearchParams(newSearchParams, { replace: true });
   };
 
   const { data } = useCalendar();
