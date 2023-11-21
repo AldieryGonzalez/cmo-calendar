@@ -69,7 +69,7 @@ const ShiftButton: React.FC<ShiftButtonProps> = ({ shift, isMine, event }) => {
                   className="flex w-52 items-center gap-2 rounded text-left text-red-700 hover:bg-black/20 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <XCircle size={20} />
-                  <span>Reqst Shift Sub</span>
+                  <span>Request Shift Sub</span>
                 </button>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
